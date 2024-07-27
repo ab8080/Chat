@@ -1,45 +1,38 @@
-# __Описание__
-Я реализовал программу - сервер. К серверу может подключиться 2 клиента и общаться друг с другом, как в чате. Если какой-то из клиентов или даже если они
-оба разорвут соединение с сервером, на сервере сохранится история переписки. Когда клиент снова подключится к серверу, у него на экране появится история
-переписки.
+# __Description__
+I have implemented a program - a server. Two clients can connect to the server and communicate with each other, as in a chat. If any of the clients, or even both of them, disconnect from the server, the chat history will be saved on the server. When the client reconnects to the server, the chat history will appear on their screen.
 
-# __Реализация__
-Серверу передается IPv4-адрес в стандартной десятичной записи и номер порта. К серверу подключаются 2 клиента с помощью утилиты ```netcat```,
-после чего они могут в консоли писать друг другу сообщения. На сервере сохраняется история чата. Если клиент разрывает соединение с сервером,
-то когда он его восстанавливает, у него выводится история чата. Историю чата я сохраняю в динамически расширяющемся массиве. Чтобы завершить работу
-сервера нужно нажать Ctrl-C. Программа завершится без ошибки, предварительно очистив динамически выделенную память, так как установлен обработчик сигнала.
-Я создал по потоку на каждого из клиентов. Кажется ничего страшного с данными не должно произойти, а программа будет работать быстрее
+# __Implementation__
+The server is given an IPv4 address in standard decimal notation and a port number. Two clients connect to the server using the `netcat` utility and can then send messages to each other in the console. The chat history is saved on the server. If a client disconnects from the server, when they reconnect, the chat history is displayed on their screen. I save the chat history in a dynamically expanding array. To terminate the server, press Ctrl-C. The program will exit without an error, freeing the dynamically allocated memory, as a signal handler is set up. I created a thread for each client, ensuring data integrity and faster program performance.
 
-# __Инструкция по запуску__
+# __Launch Instructions__
 
-Клонируем репозиторий:
+Clone the repository:
 ```bash
    git clone https://github.com/Sasha-nagibator/Chat -b dev
    cd Chat
 ```
 
-Запускаем сервер. В аргументах командной строки указываем номер хоста и порта: 
+Start the server. Specify the host number and port in the command line arguments:
 ```bash
    gcc -pthread main.c
    ./a.out <host> <port>
 ```
 
-Если не установлен netcat:
+If netcat is not installed:
 Команда установки в Ubuntu/Debian:
 ```bash
    sudo aptitude install netcat
 ```
 
-Команда установки в CentOS:
+Install command on CentOS:
 ```bash
    sudo yum install netcat
 ```
 
-Далее открываем 2 вкладки терминала и в обеих запускаем команду
+Then open 2 terminal tabs and run the following command in both:
 ```bash
    netcat <host> <port>
 ```
-Хост и порт указываем такой же как и при запуске main.c
+Specify the same host and port as when starting main.c.
 
-Теперь клиенты могут общаться друг с другом. Введите текст в одной вкладке терминала, он будет появляться в другой. Если хотите прервать соединение
-клиента с сервером, нажмите в соответствующей вкладке Ctrl-C. Если хотите завершить работу сервера, нажмите Ctrl-C во вкладке, где запустили сервер.
+Now the clients can chat with each other. Enter text in one terminal tab, and it will appear in the other. To disconnect the client from the server, press Ctrl-C in the respective tab. To terminate the server, press Ctrl-C in the tab where the server was started.
